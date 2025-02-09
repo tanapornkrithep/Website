@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <link rel="stylesheet" href="index.css"> 
+    
+</head>
+
+<body>
+    <div class="container">
+        <h1>Student Management System</h1>
+
+        <!-- Form to add new student -->
+        <form id="add-form">
+            <input type="text" id="student-id" placeholder="Enter Student ID" required>
+            <input type="text" id="student-name" placeholder="Enter Student Name" required>
+            <button type="submit">Add Student</button>
+        </form>
+
+        <!-- Search form to find student by ID -->
+        <h2>Search Student by ID:</h2>
+        <input type="text" id="search-id" placeholder="Enter Student ID" onchange="searchStudent()">
+
+        <!-- List of students -->
+        <ul id="name-list"></ul>
+    </div>
+
+    <script>
+        // Fetch all students and display them
+        async function fetchStudents() {
+            const res = await fetch('http://localhost:3000/student');
+            const students = await res.json();
+            const studentList = students.map(student => `
+                <li>
+                    ${student.name} (ID: ${student.studentid}) 
+                    <button onclick="editStudent('${student.studentid}')">Edit</button>
+                    <button onclick="deleteStudent('${student.studentid}')">Delete</button>
+                </li>
+            `).join('');
+            document.getElementById('name-list').innerHTML = studentList;
+        }
+
+        // Add new student
+        document.getElementById('add-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const studentId = document.getElementById('student-id').value;
+            const studentName = document.getElementById('student-name').value;
+
+            const data = {
+                studentid: studentId,
+                name: studentName
+            };
+
+            const res = await fetch('http://localhost:3000/student', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                alert('Student added successfully!');
+                fetchStudents();  // Reload the student list
+            } else {
+                alert('Error adding student');
+            }
+        });
+
+        // Edit student details
+        async function editStudent(studentId) {
+            const newName = prompt("Enter new name:");
+            if (newName) {
+                const data = { name: newName };
+                const res = await fetch(`http://localhost:3000/student/${studentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (res.ok) {
+                    alert('Student updated successfully!');
+                    fetchStudents();  // Reload the student list
+                } else {
+                    alert('Error updating student');
+                }
+            }
+        }
+
+        // Delete student
+        async function deleteStudent(studentId) {
+            const res = await fetch(`http://localhost:3000/student/${studentId}`, {
+                method: 'DELETE'
+            });
+
+            if (res.ok) {
+                alert('Student deleted successfully!');
+                fetchStudents();  // Reload the student list
+            } else {
+                alert('Error deleting student');
+            }
+        }
+
+        // Search for student by ID
+        async function searchStudent() {
+    const studentId = document.getElementById('search-id').value;
+    
+    if (studentId) {
+        const res = await fetch(`http://localhost:3000/student/id/${studentId}`);
+
+        // Check if the response is okay (status code 200)
+        if (res.ok) {
+            const student = await res.json();
+
+            if (student && student.name) {  // Ensure the student object is not empty
+                document.getElementById('name-list').innerHTML = `
+                    <li>
+                        ${student.name} (ID: ${student.studentid})
+                        <button onclick="editStudent('${student.studentid}')">Edit</button>
+                        <button onclick="deleteStudent('${student.studentid}')">Delete</button>
+                    </li>
+                `;
+            } else {
+                document.getElementById('name-list').innerHTML = '<li>No student found</li>';
+            }
+        } else {
+            // Handle non-200 responses (e.g., 404)
+            document.getElementById('name-list').innerHTML = '<li>No student found</li>';
+        }
+    } else {
+        fetchStudents();  // Reload the full list if search input is empty
+    }
+}
+
+
+        // Load students initially
+        fetchStudents();
+    </script>
+</body>
+
+</html>

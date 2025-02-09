@@ -1,0 +1,154 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f0f7;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+h2 {
+    color: #000000;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+input[type="text"] {
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #e91e63;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fce4ec;
+    color: #333;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ad1457;
+    background-color: #f8bbd0;
+}
+
+button {
+    padding: 12px 20px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #ad1457;
+    transform: scale(1.05);
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    background-color: #f8bbd0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+li button {
+    margin-left: 10px;
+    padding: 8px 15px;
+    background-color: #d81b60;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+li button:hover {
+    background-color: #ad1457;
+    transform: scale(1.05);
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #e91e63;
+}
+
+#search-id {
+    width: 200px;
+    margin-left: 10px;
+    border-radius: 8px;
+    padding: 12px;
+    border: 2px solid #e91e63;
+    background-color: #fce4ec;
+}
+
+#search-id:focus {
+    border-color: #ad1457;
+    background-color: #f8bbd0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 20px;
+    }
+
+    h1 {
+        font-size: 2.3rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    input[type="text"], button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    #search-id {
+        width: 100%;
+        margin-left: 0;
+    }
+}
